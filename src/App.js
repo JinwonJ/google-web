@@ -7,7 +7,8 @@ import Hexbin from "./Hexbin.js";
 import fakeStoreLatLngData from "./data/generated-data.json";
 
 const MAP_PIXEL_HEIGHT = 600;
-const HEX_PIXEL_RADIUS = 50;
+//hexagon size control
+const HEX_PIXEL_RADIUS = 80;
 
 class App extends Component {
   constructor() {
@@ -32,9 +33,10 @@ class App extends Component {
           }
           googleMapElement={
             <GoogleMap
-              defaultZoom={22}
+              defaultZoom={19}
               options={{ mapTypeControl: false }}
-              defaultCenter={{ lat: 37.520398, lng: 126.878935 }}
+              defaultCenter={{ lat: 35.1513807, lng: 126.9147898 }}
+              // defaultCenter={{ lat: 37.520398, lng: 126.878935 }}
               // "lat": 37.520398,
               // "lng": 126.878935
               onClick={(e) => console.log(e.latLng.lat(), e.latLng.lng())}
