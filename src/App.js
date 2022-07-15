@@ -8,7 +8,7 @@ import fakeStoreLatLngData from "./data/generated-data.json";
 
 const MAP_PIXEL_HEIGHT = 600;
 //hexagon size control
-const HEX_PIXEL_RADIUS = 80;
+const HEX_PIXEL_RADIUS = 40;
 
 class App extends Component {
   constructor() {
