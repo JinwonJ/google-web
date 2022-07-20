@@ -1,10 +1,13 @@
-import React, { Component, PropTypes } from 'react';
-import { OverlayView } from 'react-google-maps';
+// import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import { OverlayView } from '@react-google-maps/api';
 import { hexbin } from 'd3-hexbin';
 import { scaleLinear } from 'd3-scale';
 import { interpolateLab } from 'd3-interpolate';
 import { max } from 'd3-array';
 import Hexagon from './Hexagon.js';
+import PropTypes from "prop-types";
+
 const google = window.google;
 
 // expects latLng = { lat: 0, lng: 0 }
@@ -20,6 +23,7 @@ function pointToLatLng(projection, point) {
   return projection.fromPointToLatLng(new google.maps.Point(point.x, point.y));
 }
 
+
 export default class Hexbin extends Component {
   constructor(props) {
     super(props);
@@ -33,8 +37,12 @@ export default class Hexbin extends Component {
     this.makeNewHexagons = this.makeNewHexagons.bind(this);
     this.makeNewHexbinGenerator = this.makeNewHexbinGenerator.bind(this);
 
+    
     // keep a reference to the map instance
+    // this.mapRef = this.props.mapHolderRef.getMap();
     this.mapRef = this.props.mapHolderRef.getMap();
+    console.log(this.props)
+    console.log(this.props.mapHolderRef)
 
     // add event listeners to map
     this.mapDragendListener = this.mapRef.addListener('dragend', this.handleBoundsChange);
@@ -139,9 +147,12 @@ export default class Hexbin extends Component {
 }
 
 Hexbin.propTypes = {
-  colorRange: PropTypes.array,
-  mapHolderRef: PropTypes.object,
-  data: PropTypes.array,
-  hexPixelRadius: PropTypes.number,
-  mapPixelHeight: PropTypes.number,
+  colorRange: PropTypes.array.isRequired,
+  // mapHolderRef: PropTypes.object.isRequired,
+  // mapHolderRef: PropTypes.any.isRequired,
+  data: PropTypes.array.isRequired,
+  hexPixelRadius: PropTypes.number.isRequired,
+  mapPixelHeight: PropTypes.number.isRequired,
 };
+
+

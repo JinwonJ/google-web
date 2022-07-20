@@ -44,13 +44,16 @@
     "whatwg-fetch": "1.0.0"
   },
   "dependencies": {
+    "@react-google-maps/api": "^2.12.1",
     "d3-array": "^1.0.1",
-    "d3-hexbin": "^0.2.0",
+    "d3-hexbin": "^0.2.2",
     "d3-interpolate": "^1.1.1",
     "d3-scale": "^1.0.3",
-    "react": "^15.2.1",
-    "react-dom": "^15.2.1",
-    "react-google-maps": "4.11.0"
+    "hexbin": "^1.0.9",
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-google-maps": "4.11"
   },
   "scripts": {
     "start": "node ./scripts/start.js",

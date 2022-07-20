@@ -1,4 +1,6 @@
-import React, { PropTypes, Component } from "react";
+// import React, { PropTypes, Component } from "react";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { hexbin } from "d3-hexbin";
 
 class Hexagon extends Component {
@@ -64,9 +66,9 @@ class Hexagon extends Component {
 }
 
 Hexagon.propTypes = {
-  hexPixelRadius: PropTypes.number,
-  fillColor: PropTypes.string,
-  content: PropTypes.any,
+  hexPixelRadius: PropTypes.number.isRequired,
+  fillColor: PropTypes.string.isRequired,
+  content: PropTypes.any.isRequired,
 };
 
 export default Hexagon;

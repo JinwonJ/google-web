@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 
-import { GoogleMapLoader, GoogleMap, Marker } from "react-google-maps";
+import { LoadScript, GoogleMap, Marker } from "@react-google-maps/api";
 import Hexbin from "./Hexbin.js";
 
 import fakeStoreLatLngData from "./data/generated-data.json";
@@ -14,7 +14,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      isMarkerOn: false,
+      isMarkerOn: true,
     };
     this.toggleMarker = this.toggleMarker.bind(this);
   }
@@ -26,7 +26,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <GoogleMapLoader
+        <LoadScript
           query={{ libraries: "geometry,drawing,places,visualization" }}
           containerElement={
             <div style={{ width: "100%", height: MAP_PIXEL_HEIGHT }} />
@@ -34,7 +34,7 @@ class App extends Component {
           googleMapElement={
             <GoogleMap
               defaultZoom={19}
-              options={{ mapTypeControl: false }}
+              options={{ mapTypeControl: true }}
               defaultCenter={{ lat: 35.1513807, lng: 126.9147898 }}
               // defaultCenter={{ lat: 37.520398, lng: 126.878935 }}
               // "lat": 37.520398,
@@ -45,7 +45,8 @@ class App extends Component {
                 hexPixelRadius={HEX_PIXEL_RADIUS}
                 mapPixelHeight={MAP_PIXEL_HEIGHT}
                 data={fakeStoreLatLngData}
-                colorRange={["white", "rgb(255, 255, 255)"]}
+                // mapHolderRef={object.GoogleMap}
+                colorRange={["white", "rgb(255, 255, 255)"]} 
               />
               {this.state.isMarkerOn
                 ? fakeStoreLatLngData
