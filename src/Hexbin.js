@@ -1,6 +1,6 @@
 // import React, { Component, PropTypes } from 'react';
 import React, { Component } from 'react';
-import { OverlayView } from '@react-google-maps/api';
+import { OverlayView, GoogleMap } from '@react-google-maps/api';
 import { hexbin } from 'd3-hexbin';
 import { scaleLinear } from 'd3-scale';
 import { interpolateLab } from 'd3-interpolate';
@@ -37,12 +37,16 @@ export default class Hexbin extends Component {
     this.makeNewHexagons = this.makeNewHexagons.bind(this);
     this.makeNewHexbinGenerator = this.makeNewHexbinGenerator.bind(this);
 
-    
+
+    // console.log(this.props.mapHolderRef)
     // keep a reference to the map instance
     // this.mapRef = this.props.mapHolderRef.getMap();
-    this.mapRef = this.props.mapHolderRef.getMap();
+    this.mapRef = window.google.maps.Map.addListener
+    // this.mapRef = this.props.google.onTilesLoaded.onLoad();
+    // this.mapRef= this.props.hexbin
     console.log(this.props)
-    console.log(this.props.mapHolderRef)
+    console.log(this)
+    console.log(this.mapRef)
 
     // add event listeners to map
     this.mapDragendListener = this.mapRef.addListener('dragend', this.handleBoundsChange);
