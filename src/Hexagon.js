@@ -3,11 +3,16 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { hexbin } from "d3-hexbin";
 
-class Hexagon extends Component {
-  render() {
-    const { hexPixelRadius, fillColor, content } = this.props;
-    const hexWidth = this.props.hexPixelRadius * 2 * Math.sin(Math.PI / 3);
-    const hexHeight = this.props.hexPixelRadius * 2;
+console.log("first")
+// class Hexagon extends Component {
+const Hexagon = (props) => {
+    // const { hexPixelRadius, fillColor, content } = this.props;
+    const { hexPixelRadius, fillColor, content } = props;
+    
+    // const hexWidth = this.props.hexPixelRadius * 2 * Math.sin(Math.PI / 3);
+    // const hexHeight = this.props.hexPixelRadius * 2;
+    const hexWidth = hexPixelRadius * 2 * Math.sin(Math.PI / 3);
+    const hexHeight =hexPixelRadius * 2;
     return (
       <div
         onClick={(e) => console.log(e.currentTartget)}
@@ -29,7 +34,6 @@ class Hexagon extends Component {
             strokeWidth={1}
             d={hexbin().hexagon(hexPixelRadius)}
             fill={fillColor}
-            // 투명도 opacity
             opacity={0.9}
             transform={`translate(${hexWidth / 2}, ${hexHeight / 2})`}
           ></path>
@@ -62,8 +66,7 @@ class Hexagon extends Component {
         </div>
       </div>
     );
-  }
-}
+  };
 
 Hexagon.propTypes = {
   hexPixelRadius: PropTypes.number.isRequired,

@@ -38,48 +38,11 @@ export default class Hexbin extends Component {
     this.makeNewHexagons = this.makeNewHexagons.bind(this);
     this.makeNewHexbinGenerator = this.makeNewHexbinGenerator.bind(this);
 
-    // console.log(this.props.mapHolderRef)
-    // keep a reference to the map instance
-    // this.mapRef = this.props.mapHolderRef.getMap();
     this.mapRef = window.google.maps.Map.addListener;
-    // this.mapRef = this.props.google.onTilesLoaded.onLoad();
-    // this.mapRef= this.props.hexbin
-    // console.log(this.props);
-    console.log(this);
-    // console.log(this.mapRef);
-
-    // add event listeners to map
-    // this.mapDragendListener = this.mapRef.addListener(
-    //   "dragend",
-    //   this.handleBoundsChange
-    // );
-    // this.mapZoomListener = this.mapRef.addListener(
-    //   "zoom_changed",
-    //   this.handleZoomChange
-    // );
-
-    // for some reason getBounds() and getProjection() functions need a little loadtime
-    // setTimeout(
-    //   () =>
-    //     this.setState({
-    //       currentBounds: this.mapRef.getBounds(),
-    //       currentProjection: this.mapRef.getProjection(),
-    //     }),
-    //   500
-    // );
-
-    // set initial state
-    // this.state = {
-    //   currentZoom: this.mapRef.getZoom(),
-    // };
   }
   componentWillUnmount() {
-    // need to remove zoom_changed event listener before unmounting
-    // google.maps.event.removeListener(this.mapZoomListener);
-    // google.maps.event.removeListener(this.mapDragendListener);
   }
   calculateHexPointRadius() {
-    // delta point / delta pixel
     return (
       ((latLngToPoint(
         this.state.currentProjection,
@@ -97,13 +60,11 @@ export default class Hexbin extends Component {
     return latLngToPoint(this.state.currentProjection, latlng);
   }
   handleBoundsChange() {
-    // set currentBounds
     this.setState({
       currentBounds: this.mapRef.getBounds(),
     });
   }
   handleZoomChange() {
-    // set currentZoom
     this.setState({
       currentZoom: this.mapRef.getZoom(),
       currentBounds: this.mapRef.getBounds(),
@@ -120,15 +81,12 @@ export default class Hexbin extends Component {
   }
   makeNewHexagons() {
     let hexagons;
-    // if data is unavailable, return an empty array
     if (!this.props.data) {
       return [];
     }
 
-    // declare a new hexbin generator
     let hexbinGenerator;
 
-    // make new hexbin according to new hexPointRadius
     const hexPointRadiusNew = this.calculateHexPointRadius();
     hexbinGenerator = this.makeNewHexbinGenerator(hexPointRadiusNew);
 
@@ -136,7 +94,6 @@ export default class Hexbin extends Component {
     hexbinGenerator.x((d) => d.x);
     hexbinGenerator.y((d) => d.y);
 
-    // calculate the hexagons
     hexagons = hexbinGenerator(this.props.data.map(this.convertLatLngToPoint));
     return hexagons.map((hexagon, idx) => {
       hexagon.id = idx;
@@ -183,8 +140,6 @@ export default class Hexbin extends Component {
 
 Hexbin.propTypes = {
   colorRange: PropTypes.array.isRequired,
-  // mapHolderRef: PropTypes.object.isRequired,
-  // mapHolderRef: PropTypes.any.isRequired,
   data: PropTypes.array.isRequired,
   hexPixelRadius: PropTypes.number.isRequired,
   mapPixelHeight: PropTypes.number.isRequired,

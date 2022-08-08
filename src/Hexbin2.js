@@ -4,43 +4,42 @@ import { hexbin } from "d3-hexbin";
 import { scaleLinear } from "d3-scale";
 import { interpolateLab } from "d3-interpolate";
 import { max } from "d3-array";
-import Hexagon from "./Hexagon.js";
+import Hexagon from './Hexagon.js';
 import PropTypes from "prop-types";
 
-const google = window.google;
+// const google = window.google;
 
 const latLngToPoint = (projection, latLng) => {
   return typeof latLng.lat === "function"
     ? projection.fromLatLngToPoint(latLng)
-    : projection.fromLatLngToPoint(new google.maps.LatLng(latLng));
+    : projection.fromLatLngToPoint(google.maps.LatLng(latLng));
 };
 
 const pointToLatLng = (projection, point) => {
-  return projection.fromPointToLatLng(new google.maps.Point(point.x, point.y));
+  return projection.fromPointToLatLng(google.maps.Point(point.x, point.y));
 };
 
-// class Hexbin extends Component {
+
 const Hexbin = () => {
-  const [currentZoom, setCurrentZoom] = useState(this.mapRef.getZoom());
-  const [mapRef, setmapRef] = useState(window.google.maps.Map);
+  const [currentZoom, setCurrentZoom] = useState(google.maps.getZoom);
   const [currentBounds, setCurrentBounds] = useState(0);
   const [currentProjection, setCurrentProjection] = useState(0);
+  
 
-  // this.mapRef = window.google.maps.Map;
-
-  const mapDragendListener = mapRef.addListener(
+  const mapDragendListener = google.maps.addListener
     "dragend",
-    this.handleBoundsChange
-  );
-  const mapZoomListener = mapRef.addListener(
+    handleBoundsChange
+  ;
+
+  const mapZoomListener = google.maps.addListener
     "zoom_changed",
-    this.handleZoomChange
-  );
+    handleZoomChange
+  ;
 
   const fuck = () => {
     setTimeout(
-      () => setCurrentBounds(mapRef.getBounds()),
-      setCurrentProjection(mapRef.getProjection()),
+      () => setCurrentBounds(google.maps.getBounds),
+      setCurrentProjection(google.maps.getProjection),
       500
     );
   };
@@ -49,7 +48,6 @@ const Hexbin = () => {
     google.maps.event.removeListener(mapZoomListener);
     google.maps.event.removeListener(mapDragendListener);
   };
-
   useEffect(() => {
     fuck();
     return () => componentWillUnmount();
@@ -59,58 +57,62 @@ const Hexbin = () => {
     return (
       ((latLngToPoint(currentProjection, currentBounds.getSouthWest()).y -
         latLngToPoint(currentProjection, currentBounds.getNorthEast()).y) *
-        this.props.hexPixelRadius) /
-      this.props.mapPixelHeight
+        hexPixelRadius) /
+      mapPixelHeight
     );
   };
   const convertLatLngToPoint = (latlng) => {
     return latLngToPoint(currentProjection, latlng);
   };
   const handleBoundsChange = () => {
-    this.setState({
-      currentBounds: this.mapRef.getBounds(),
+    setState({
+      currentBounds: google.maps.getBounds,
     });
   };
   const handleZoomChange = () => {
-    this.setState({
-      currentZoom: this.mapRef.getZoom(),
-      currentBounds: this.mapRef.getBounds(),
+    setState({
+      currentZoom: google.maps.getZoom,
+      currentBounds: google.maps.getBounds,
     });
   };
   const makeNewColorScale = (hexagons) => {
     return scaleLinear()
       .domain([0, max(hexagons.map((hexagon) => hexagon.length))])
-      .range(this.props.colorRange)
+      .range(colorRange)
       .interpolate(interpolateLab);
   };
   const makeNewHexbinGenerator = (hexPointRadius) => {
     return hexbin().radius(hexPointRadius);
   };
   const makeNewHexagons = () => {
-    if (!this.props.data) {
+    if (!data) {
       return [];
     }
 
     let hexbinGenerator;
 
-    const hexPointRadiusNew = this.calculateHexPointRadius();
-    hexbinGenerator = this.makeNewHexbinGenerator(hexPointRadiusNew);
+    const hexPointRadiusNew = calculateHexPointRadius();
+    hexbinGenerator = makeNewHexbinGenerator(hexPointRadiusNew);
 
     hexbinGenerator.x((d) => d.x);
     hexbinGenerator.y((d) => d.y);
 
-    let hexagons = hexbinGenerator(
-      this.props.data.map(this.convertLatLngToPoint)
+    hexagons = hexbinGenerator(
+      props.data.map(convertLatLngToPoint)
     );
-  };
+    return hexagon.map((hexagon, idx) => {
+      hexagon.id = idx;
+      return hexagon;
+    });
+  }
   let hexagons = [];
   let colorScale;
 
   if (currentProjection) {
-    hexagons = this.makeNewHexagons();
-    colorScale = this.makeNewColorScale(hexagons);
+    hexagons = makeNewHexagons();
+    colorScale = makeNewColorScale(hexagons);
   }
-
+  
   return (
     <div>
       {hexagons
@@ -120,28 +122,29 @@ const Hexbin = () => {
         .map((hexagon) => {
           return (
             <OverlayView
-              mapHolderRef={this.props.mapHolderRef}
+              mapHolderRef={props.mapHolderRef}
               position={pointToLatLng(currentProjection, hexagon)}
               mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
               key={hexagon.id}
             >
               <Hexagon
-                hexPixelRadius={this.props.hexPixelRadius}
+                hexPixelRadius={hexPixelRadius}
                 fillColor={colorScale(hexagon.length)}
                 content={hexagon.length}
               />
-            </OverlayView>
+             </OverlayView>
           );
         })}
     </div>
+    
   );
+  
 };
-
-export default Hexbin;
-
 Hexbin.propTypes = {
   colorRange: PropTypes.array.isRequired,
   data: PropTypes.array.isRequired,
   hexPixelRadius: PropTypes.number.isRequired,
   mapPixelHeight: PropTypes.number.isRequired,
 };
+
+export default Hexbin;

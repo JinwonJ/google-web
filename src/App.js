@@ -57,24 +57,22 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 import { LoadScript, GoogleMap, Marker } from "@react-google-maps/api";
-import Hexbin from "./Hexbin.js";
+import Hexbin from "./Hexbin2.js";
+// import Hexbin from "./Hexbin.js";
 import fakeStoreLatLngData from "./data/generated-data.json";
-
-const MAP_PIXEL_HEIGHT = 600;
-const HEX_PIXEL_RADIUS = 40;
 import "./reset.css";
-const INITIAL_VIEW = {
-  viewState: {},
-};
 
 const center = {
   lat: 35.1516847,
   lng: 126.842175,
 };
-
+console.log(fakeStoreLatLngData)
 function MyComponent() {
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(window.screen.height);
+
+  const MAP_PIXEL_HEIGHT = 100;
+  const HEX_PIXEL_RADIUS = 40;
 
   const ref = useRef(null);
   useEffect(() => {
@@ -87,21 +85,17 @@ function MyComponent() {
   return (
     <LoadScript googleMapsApiKey="AIzaSyCymZURqRBA50tKljubkLjBxzPsnMtCyZ8">
       <GoogleMap
-        onClick={(e) => console.log(e)}
-        onDragEnd={(e) => console.log("드래그했다")}
-        onZoomChanged={(e) => console.log("줌바꿨다")}
         mapContainerStyle={{
           height: height,
         }}
         center={center}
-        zoom={17}
-      >
-        {/* <Hexbin
+        zoom={11}>
+        <Hexbin
           hexPixelRadius={HEX_PIXEL_RADIUS}
           mapPixelHeight={MAP_PIXEL_HEIGHT}
           data={fakeStoreLatLngData}
-          colorRange={["white", "rgb(255, 255, 255)"]}
-        /> */}
+          colorRange={["white", "rgb(255, 255, 255)"]}>
+        </Hexbin>
       </GoogleMap>
     </LoadScript>
   );
