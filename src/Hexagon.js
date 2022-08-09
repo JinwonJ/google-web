@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { hexbin } from "d3-hexbin";
 
-console.log("first")
 // class Hexagon extends Component {
 const Hexagon = (props) => {
     // const { hexPixelRadius, fillColor, content } = this.props;
