@@ -116,4 +116,4 @@ const Hexbin = () => {
   
 };
 
-export default Hexbin
+export default Hexbin;
